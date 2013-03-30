@@ -8,14 +8,92 @@
 	<header></header>
 
 	<article id=display>
-	
 		<div class=box>
-			<img class=image src="upload/mdn-logo-sm.png"></img>
-			<p>E</p>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
 		</div>
-	
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
+		<div class=box>
+			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
+			<span class=edit>E</span>
+			<span class=delete>X</span>
+		</div>
 	</article>
-
 	<div id="dropbox"></div>
 
 	<progress id="progressbar" min=0 max=100 value=0></progress>

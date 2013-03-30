@@ -3,9 +3,17 @@
 	margin:0 auto;
 }
 
+#display{
+	margin: 0 auto;
+	background-color: yellow;
+	width: 800px;
+}
+
+
 #dropbox{
 	background-color: #bbb;
 	margin: 0 auto;
+	margin-top: 50px;
 	width: 800px;
 	height: 150px;
 }
@@ -17,25 +25,31 @@
 }
 
 .box{
-	background-color: red;
-	width: 100px;
-	height: 100px;
-}
-
-.image{
-	height: 100px;
-	width: 100px;
+	position: relative;
+	display: inline-block;
+	margin-left: 100px;
 }
 
 .edit{
+	display: none;
+	position: absolute;
+	top: 5px;
+	left: 23px;
+	background-color: blue;
+	width: 16px;
+	height: 16px;
+	text-align: center;
 }
+
 
 .delete{
-
-}
-p{
+	display: none;
 	position: absolute;
-	top: 23px;
-	left: 0;
-	width: 100%;
+	top: 5px;
+	left: 42px;
+	background-color: blue;
+	width: 16px;
+	height: 16px;
+	text-align: center;
 }
+
