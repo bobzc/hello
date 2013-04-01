@@ -8,99 +8,32 @@
 	<header></header>
 
 	<article id=display>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
-		<div class=box>
-			<span class=image><img src="upload/mdn-logo-sm.png"></img></span>
-			<span class=edit>E</span>
-			<span class=delete>X</span>
-		</div>
+<?
+	$dbh = new PDO('mysql:host=pc89074.cse.cuhk.edu.hk;dbname=1155002007', 
+					'1155002007', 'Iqg54OLM');
+	$query = $dbh->prepare("SELECT * FROM Photos ORDER BY time DESC");
+	$query->execute();
+	while($row = $query->fetch()){
+		$src = "./thumbnail/thumb-$row[filename]";
+		echo "<div><div><img src='$src' title='$row[description]'></div><span>E</span><span>X</span></div>";
+	}
+?>
 	</article>
 	<div id="dropbox"></div>
-
+	<div id="feedback"></div>
 	<progress id="progressbar" min=0 max=100 value=0></progress>
-
 </div>
 
-<script src="./init.js"></script>
+<div id=background>
+</div>
+<div id=original>
+	<table>
+		<tr><td id=nw></td><td id=n></td><td id=ne></td></tr>
+		<tr><td id=w></td><td id=center></td><td id=e></td></tr>
+		<tr><td id=sw></td><td id=s></td><td id=se></td></tr>
+	</table>
+</div>
+<script src="./remote_action.js"></script>
 
 </body>
 </html>
