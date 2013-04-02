@@ -1,0 +1,59 @@
+var __body = document.getElementsByTagName('body')[0];
+var __background;
+var __viewLayer;
+
+
+document.getElementsByTagName("body")[0].addEventListener('click', function(e){
+	var t = e.target;
+	if(t.tagName.toLowerCase() == 'img' && t.getAttribute('id') == null){
+		console.log('view image');
+		viewImageHandler(t);
+	}else if(t.getAttribute('id') != null && 
+				t.getAttribute('id').toLowerCase() == 'background'){
+		console.log('exit view');
+		exitView();
+	}
+}, false);
+
+
+
+function viewImageHandler(target){
+	__background = createBackground();
+	__body.appendChild(__background);
+}
+
+
+function createBackground(){
+	var bg = document.createElement("div");
+	bg.setAttribute("id", "background");
+	bg.style.position = "absolute";
+	bg.style.top = window.pageYOffset + "px";
+	bg.style.left = window.pageXOffset + "px";
+	bg.style.width = window.innerWidth + "px";
+	bg.style.height = window.innerHeight + "px";
+	bg.style.background = "grey";
+	bg.style.opacity = "0.8";
+	return bg;
+}
+
+function createViewLayer(image){
+	var src = image.getAttribute('src');
+	var tmp = src.indexOf("thumb-");
+	var path = "./upload/" + src.substring(tmp+6);
+	
+	var img = document.createElement('img');
+	img.setAttribute('src', path);
+
+	__body.appendChild(img);
+}
+
+table = document.createElement("table");
+for(var i = 0; i < 3; i++)
+
+}
+
+
+
+function exitView(){
+	__body.removeChild(__background);
+}

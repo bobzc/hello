@@ -25,5 +25,6 @@
 </div>
 
 <script src="./remote_action.js"></script>
+<script src="./image_action.js"></script>
 </body>
 </html>

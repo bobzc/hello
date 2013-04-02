@@ -1,13 +1,10 @@
 var dropbox = document.getElementById("dropbox");
 var progress = document.getElementById("progressbar");
-var table = document.getElementsByTagName("table")[0];
-var bg = document.getElementById("background");
 
 dropbox.addEventListener('dragenter', handleDragEnter, false);
 dropbox.addEventListener('dragover', handleDragOver, false);
 dropbox.addEventListener('dragleave', handleDragLeave, false);
 dropbox.addEventListener('drop', handleDrop, false);
-
 
 // mouse over image
 document.getElementsByTagName("body")[0].addEventListener('mouseover', function(e){
@@ -38,21 +35,12 @@ document.getElementsByTagName("body")[0].addEventListener('mouseout', function(e
 // click action
 document.getElementsByTagName("body")[0].addEventListener('click', function(e){
 	var t = e.target;
-		console.log(t);
-	if(t.tagName.toLowerCase() == 'img' && t.getAttribute('id') == null){
-		inspectHandler(t);
-		console.log("image\n");
-	}else if(t.innerHTML == "E"){
+	if(t.innerHTML == "E"){
 		console.log("edit\n");
 		editHandler(t);
 	}else if(t.innerHTML == "X"){
 		console.log("delete\n");
 		deleteHandler(t);
-	}else if(t.tagName.toLowerCase() == "td" 
-				&& t.getAttribute('id').toLowerCase() != "center"){
-		console.log("cancel bg\n");
-		console.log(t);
-		exitBgHandler(t);
 	}else{
 		console.log("no action");
 		return;
@@ -199,78 +187,3 @@ function deleteHandler(target){
 	return false;
 }	
 
-function exitBgHandler(target){
-	bg.style.display = "none";
-	table.style.display = "none";
-	table.style.left = "0px";
-
-	// re-enable mouse wheel
-	document.removeEventListener('mousewheel', disableWheel, false);	
-	document.getElementById('center').innerHTML = "";
-}
-
-function inspectHandler(target){
-	showFrontLayer();
-
-	// get file name
-	var src = target.getAttribute('src');
-	var tmp = src.indexOf("thumb-");
-	var filename = src.substring(tmp+6);
-	var path = "./upload/"+filename;
-	
-	// load image
-	var center = document.getElementById('center');
-
-	center.style.left = "-99999px"
-	center.innerHTML = "<img id=image draggable=true src=" + path +">";
-
-	var image = document.getElementById('image');
-
-	image.onload= function(){
-		// adjust height and width
-		var ratio = image.height / image.width;
-		if(image.height > window.innerHeight * 0.7){
-			image.style.height = window.innerHeight * 0.7 + "px" ;
-			image.style.width = image.height / ratio + "px";
-		}
-		if(image.width > window.innerWidth * 0.7){
-			image.style.width = window.innerWidth * 0.7 + "px";
-			image.style.height = image.width * ratio + "px";
-		}
-		center.style.left = (window.innerWidth - image.width) / 2 + "px";	
-		center.style.top = (window.innerHeight - image.height) / 2 + "px";	
-		center.style.width = image.width;
-		center.style.height = image.height;
-		document.getElementById('row-2').style.height = image.height + "px";
-		document.getElementById('n').style.width = image.width + "px";
-		document.getElementById('s').style.width = image.width + "px";
-	}
-	
-}
-
-
-function showFrontLayer(){
-	bg.style.display = "block";
-	bg.style.width = window.innerWidth +"px";
-	bg.style.height = window.innerHeight +"px";
-	bg.style.top = window.pageYOffset+"px";
-	bg.style.left = window.pageXOffset+"px";
-
-	table.style.display = "table";
-	table.style.width = window.innerWidth +"px";
-	table.style.height = window.innerHeight +"px";
-	table.style.top = window.pageYOffset+"px";
-	table.style.left = window.pageXOffset+"px";
-
-	document.addEventListener('mousewheel', disableWheel, false);	
-}
-
-function disableWheel(e){
-	e.preventDefault();
-}
-
-
-/*******************************
-     		copying
-
-*******************************/

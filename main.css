@@ -64,33 +64,31 @@
 	cursor: pointer;
 }
 
-#background{
-	opacity: 0.8;
-	background-color: grey;
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: none;
-}
-
-#original{
-	z-index: 1;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
-table{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	display: none;
-}
-
-#center{
-	position: absolute;
-}
-
 td{
 	border: 1px solid black;
 }
+
+table{
+	border-collapse:collapse;
+}
+.NW{
+	height: 10px;
+	width: 10px;
+	cursor: nw-resize;
+}
+
+.N{cursor: n-resize;}
+.NE{cursor: ne-resize;}
+.E{cursor: e-resize;}
+.W{cursor: w-resize;}
+.SW{cursor: sw-resize;}
+.S{cursor: s-resize;}
+
+.SE{
+	height: 10px;
+	width: 10px;
+	cursor: se-resize;
+}
+
+
+
