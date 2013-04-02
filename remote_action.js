@@ -1,5 +1,8 @@
 var dropbox = document.getElementById("dropbox");
 var progress = document.getElementById("progressbar");
+var table = document.getElementsByTagName("table")[0];
+var bg = document.getElementById("background");
+
 dropbox.addEventListener('dragenter', handleDragEnter, false);
 dropbox.addEventListener('dragover', handleDragOver, false);
 dropbox.addEventListener('dragleave', handleDragLeave, false);
@@ -35,6 +38,7 @@ document.getElementsByTagName("body")[0].addEventListener('mouseout', function(e
 // click action
 document.getElementsByTagName("body")[0].addEventListener('click', function(e){
 	var t = e.target;
+		console.log(t);
 	if(t.tagName.toLowerCase() == 'img' && t.getAttribute('id') == null){
 		inspectHandler(t);
 		console.log("image\n");
@@ -44,8 +48,10 @@ document.getElementsByTagName("body")[0].addEventListener('click', function(e){
 	}else if(t.innerHTML == "X"){
 		console.log("delete\n");
 		deleteHandler(t);
-	}else if(t.tagName="td" && t.getAttribute('id') != "center"){
+	}else if(t.tagName.toLowerCase() == "td" 
+				&& t.getAttribute('id').toLowerCase() != "center"){
 		console.log("cancel bg\n");
+		console.log(t);
 		exitBgHandler(t);
 	}else{
 		console.log("no action");
@@ -194,41 +200,17 @@ function deleteHandler(target){
 }	
 
 function exitBgHandler(target){
-	var table = document.getElementsByTagName('table')[0];	
-	target = document.getElementById('background');
-	target.style.width = "0px";
-	target.style.height = "0px";
-	target.style.top = "0px";
-	target.style.left = "0px";
-
-	table.style.width = "0px";
-	table.style.height = "0px";
-	table.style.top = "0px";
+	bg.style.display = "none";
+	table.style.display = "none";
 	table.style.left = "0px";
+
 	// re-enable mouse wheel
 	document.removeEventListener('mousewheel', disableWheel, false);	
 	document.getElementById('center').innerHTML = "";
 }
 
 function inspectHandler(target){
-	console.log("ok");
-	var bg = document.getElementById('background');
-	var original = document.getElementById('original');
-	var table = document.getElementsByTagName('table')[0];	
-
-	// background layer emerge
-	bg.style.width = window.innerWidth +"px";
-	bg.style.height = window.innerHeight +"px";
-	bg.style.top = window.pageYOffset+"px";
-	bg.style.left = window.pageXOffset+"px";
-
-	table.style.width = window.innerWidth +"px";
-	table.style.height = window.innerHeight +"px";
-	table.style.top = window.pageYOffset+"px";
-	table.style.left = window.pageXOffset+"px";
-
-	// disable mouse wheel
-	document.addEventListener('mousewheel', disableWheel, false);	
+	showFrontLayer();
 
 	// get file name
 	var src = target.getAttribute('src');
@@ -237,9 +219,13 @@ function inspectHandler(target){
 	var path = "./upload/"+filename;
 	
 	// load image
-	document.getElementById('center').style.left = "-9999px";	
-	document.getElementById('center').innerHTML = "<img id=image  src=" + path +">";
+	var center = document.getElementById('center');
+
+	center.style.left = "-99999px"
+	center.innerHTML = "<img id=image draggable=true src=" + path +">";
+
 	var image = document.getElementById('image');
+
 	image.onload= function(){
 		// adjust height and width
 		var ratio = image.height / image.width;
@@ -251,11 +237,40 @@ function inspectHandler(target){
 			image.style.width = window.innerWidth * 0.7 + "px";
 			image.style.height = image.width * ratio + "px";
 		}
-		document.getElementById('center').style.left = (window.innerWidth - image.width) / 2 + "px";	
-		document.getElementById('center').style.top = (window.innerHeight - image.height) / 2 + "px";	
+		center.style.left = (window.innerWidth - image.width) / 2 + "px";	
+		center.style.top = (window.innerHeight - image.height) / 2 + "px";	
+		center.style.width = image.width;
+		center.style.height = image.height;
+		document.getElementById('row-2').style.height = image.height + "px";
+		document.getElementById('n').style.width = image.width + "px";
+		document.getElementById('s').style.width = image.width + "px";
 	}
+	
+}
+
+
+function showFrontLayer(){
+	bg.style.display = "block";
+	bg.style.width = window.innerWidth +"px";
+	bg.style.height = window.innerHeight +"px";
+	bg.style.top = window.pageYOffset+"px";
+	bg.style.left = window.pageXOffset+"px";
+
+	table.style.display = "table";
+	table.style.width = window.innerWidth +"px";
+	table.style.height = window.innerHeight +"px";
+	table.style.top = window.pageYOffset+"px";
+	table.style.left = window.pageXOffset+"px";
+
+	document.addEventListener('mousewheel', disableWheel, false);	
 }
 
 function disableWheel(e){
 	e.preventDefault();
 }
+
+
+/*******************************
+     		copying
+
+*******************************/

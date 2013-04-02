@@ -70,6 +70,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+	display: none;
 }
 
 #original{
@@ -83,8 +84,13 @@ table{
 	position: absolute;
 	top: 0px;
 	left: 0px;
+	display: none;
 }
 
 #center{
 	position: absolute;
+}
+
+td{
+	border: 1px solid black;
 }
