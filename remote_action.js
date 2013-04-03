@@ -30,6 +30,12 @@ document.getElementsByTagName("body")[0].addEventListener('mouseout', function(e
 		parent.childNodes[2].style.display="none";
 		t.style.border="0px";
 	}
+	else if(t.innerHTML == "E" || t.innerHTML == "X"){
+		var parent = t.parentNode;
+		parent.childNodes[1].style.display="none";
+		parent.childNodes[2].style.display="none";
+		parent.childNodes[0].childNodes[0].style.border="0px";
+	}
 }, false);
 
 // click action
