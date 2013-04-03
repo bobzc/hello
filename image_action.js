@@ -3,8 +3,18 @@ var __background;
 var __viewLayer;
 var __centerDiv;
 var __image;
+var __table;
+var __eventArray;
 
 var TD_CLASS = ['NW', "N", "NE", "W", "CENTER", "E", "SW", "S", "SE"];
+
+
+function imageEvent(target, type, func, prop){
+	this.eTarget = target;
+	this.eType = type;
+	this.eListener = func;
+	this.eProp = prop;
+}
 
 
 document.getElementsByTagName("body")[0].addEventListener('click', function(e){
@@ -32,8 +42,66 @@ function viewImageHandler(target){
 		setImageStyle(__image);
 		setViewLayerStyle();	
 	};
+	__image.addEventListener('mousedown', imageDragHandler, false);
 }
 
+
+/********************/
+/*  event handler   */
+/********************/
+
+
+
+function imageDragHandler(e){
+	console.log("down");
+	e.stopPropagation();
+	e.preventDefault();
+
+	__eventArray = new Array();
+	__eventArray.length = 0;
+
+	__eventArray.push(new imageEvent(__image, "mousemove", movingDragHandler, false));
+	__eventArray.push(new imageEvent(__image, "mouseup", undragHandler, false));
+	__eventArray.push(new imageEvent(__body, "mousemove", movingDragHandler, false));
+	__eventArray.push(new imageEvent(window, "mousemove", outOfBound, false));
+	__eventArray.push(new imageEvent(window, "mouseup", undragHandler, false));
+
+	for(var i = 0; i < __eventArray.length; i++){
+			var tmp = __eventArray[i];
+			tmp.eTarget.addEventListener(tmp.eType, tmp.eListener, tmp.eProp);
+	}
+}
+
+
+
+function movingDragHandler(e){
+	console.log("moving");
+	e.stopPropagation();
+	e.preventDefault();
+	moveBoundCheck(e);
+}
+
+function undragHandler(e){
+	console.log("up");
+
+}
+
+function outOfBound(e){
+	console.log("out");
+
+}
+
+function moveBoundCheck(e){
+	
+
+}
+
+
+
+
+/***********************/
+/* generate view layer */
+/***********************/
 
 function createBackground(){
 	var bg = document.createElement("div");
@@ -62,7 +130,7 @@ function setImageStyle(obj){
 
 function setViewLayerStyle(){
 	__viewLayer.style.width = __image.width + 30 + "px";
-	__viewLayer.style.height = __image.height + "px";
+	__viewLayer.style.height = __image.height + 35 + "px";
 	__viewLayer.style.position = "absolute";
 	__viewLayer.style.top = (window.innerHeight - __image.height) / 2 + "px";
 	__viewLayer.style.left = (window.innerWidth - __image.width) / 2 + "px";
@@ -79,6 +147,7 @@ function createViewLayer(image){
 	__image = img;
 
 	var table = createTable();
+	__table = table;
 
 	__centerDiv.appendChild(img);
 
