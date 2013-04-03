@@ -8,5 +8,8 @@
 										   time BIGINT,
 										   description CHAR(100), 
 										   width INT,
-										   height INT)');
+									   	   height INT)');
+	$sth = $dbh->exec('CREATE TABLE LAST(time BIGINT)');
+	$time = time();
+	$sth = $dbh->exec("INSERT INTO LAST VALUES ($time)");
 ?>	

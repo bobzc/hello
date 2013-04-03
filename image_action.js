@@ -1,3 +1,5 @@
+var viewing = false;
+
 var __body = document.getElementsByTagName('body')[0];
 var __background;
 var __viewLayer;
@@ -50,6 +52,7 @@ document.getElementsByTagName("body")[0].addEventListener('click', function(e){
 
 
 function viewImageHandler(target){
+	viewing = true;
 	__background = createBackground();
 	__viewLayer = createViewLayer(target);
 
@@ -488,4 +491,5 @@ function exitView(){
 	window.removeEventListener("mousewheel", stopMouseWheel, false);	
 	__body.removeChild(__background);
 	__body.removeChild(__viewLayer);
+	viewing = false;
 }

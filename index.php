@@ -21,9 +21,11 @@
 	</article>
 	<div id="dropbox"></div>
 	<progress id="progressbar" min=0 max=100 value=0></progress>
+	<button type=button>Auto-sync off</button>
 </div>
 
 <script src="./remote_action.js"></script>
 <script src="./image_action.js"></script>
+<script src="./sync_action.js"></script>
 </body>
 </html>

@@ -1,3 +1,4 @@
+var auto_sync = false;
 var dropbox = document.getElementById("dropbox");
 var progress = document.getElementById("progressbar");
 
@@ -6,15 +7,19 @@ dropbox.addEventListener('dragover', handleDragOver, false);
 dropbox.addEventListener('dragleave', handleDragLeave, false);
 dropbox.addEventListener('drop', handleDrop, false);
 
+
+
 // mouse over image
 document.getElementsByTagName("body")[0].addEventListener('mouseover', function(e){
 	var t = e.target;
 	if(t.tagName.toLowerCase() == 'img' && t.getAttribute('id') == null){
+		auto_sync = false;
 		var parent = t.parentNode.parentNode;
 		parent.childNodes[1].style.display="inline";
 		parent.childNodes[2].style.display="inline";
 		t.style.border="solid 2px red";
 	}else if(t.innerHTML == "E" || t.innerHTML == "X"){
+		auto_sync = false;
 		t.parentNode.childNodes[1].style.display="inline";
 		t.parentNode.childNodes[2].style.display="inline";
 		t.parentNode.childNodes[0].childNodes[0].style.border="solid 2px red";
@@ -29,12 +34,14 @@ document.getElementsByTagName("body")[0].addEventListener('mouseout', function(e
 		parent.childNodes[1].style.display="none";
 		parent.childNodes[2].style.display="none";
 		t.style.border="0px";
+		auto_sync = true;
 	}
 	else if(t.innerHTML == "E" || t.innerHTML == "X"){
 		var parent = t.parentNode;
 		parent.childNodes[1].style.display="none";
 		parent.childNodes[2].style.display="none";
 		parent.childNodes[0].childNodes[0].style.border="0px";
+		auto_sync = true;
 	}
 }, false);
 
@@ -42,11 +49,15 @@ document.getElementsByTagName("body")[0].addEventListener('mouseout', function(e
 document.getElementsByTagName("body")[0].addEventListener('click', function(e){
 	var t = e.target;
 	if(t.innerHTML == "E"){
+		auto_sync = false;
 		console.log("edit\n");
 		editHandler(t);
+		auto_sync = true;
 	}else if(t.innerHTML == "X"){
 		console.log("delete\n");
+		auto_sync = false;
 		deleteHandler(t);
+		auto_sync = true;
 	}else{
 		console.log("no action");
 		return;
@@ -84,6 +95,7 @@ function handleDrop(e){
 	if(e.stopPropagation)
 		e.stopPropagation();
 	e.preventDefault();
+	auto_sync = false;
 
 	// append image data
 	var files = e.dataTransfer.files;
@@ -134,6 +146,7 @@ function handleDrop(e){
 	xhr.open('POST', './insert.php');
 	xhr.onload = function(){
 		setTimeout(function(){progress.value = 0;}, 300);
+		auto_sync = true;
 	};
 
 	// handle process bar

@@ -7,4 +7,9 @@
 	while($row = $query->fetch()){
 		print_r($row);
 	}
+	$query = $dbh->prepare('SELECT * FROM LAST');
+	$query->execute();
+	while($row = $query->fetch()){
+		print_r($row);
+	}
 ?>
