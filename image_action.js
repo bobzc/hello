@@ -61,6 +61,8 @@ function viewImageHandler(target){
 		setViewLayerStyle();	
 	};
 	__image.addEventListener('mousedown', imageDragHandler, false);
+	window.addEventListener("mousewheel", stopMouseWheel, false);	
+
 	document.getElementsByClassName('NW')[0].addEventListener("mousedown", imageResizeHandler, false);
 	document.getElementsByClassName('N')[0].addEventListener("mousedown", imageResizeHandler, false);
 	document.getElementsByClassName('W')[0].addEventListener("mousedown", imageResizeHandler, false);
@@ -71,6 +73,10 @@ function viewImageHandler(target){
 	document.getElementsByClassName('NE')[0].addEventListener("mousedown", imageResizeHandler, false);
 }
 
+
+function stopMouseWheel(e){
+	e.preventDefault();
+}
 
 
 function imageResizeHandler(e){
@@ -479,6 +485,7 @@ function createTable(){
 
 
 function exitView(){
+	window.removeEventListener("mousewheel", stopMouseWheel, false);	
 	__body.removeChild(__background);
 	__body.removeChild(__viewLayer);
 }

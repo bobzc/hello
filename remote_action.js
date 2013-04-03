@@ -98,7 +98,7 @@ function handleDrop(e){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			//append image
 			if(xhr.responseText == "error"){
-				document.getElementById('feedback').innerHTML = "Error! Please upload a image!";
+				alert("Error! Please upload a image!");
 				return;
 			}
 			var imgs = document.getElementsByTagName('img');
@@ -156,6 +156,10 @@ function handleDrop(e){
 function editHandler(target){
 	var description = prompt("Enter the description:");
 	if(description == null){
+		return;
+	}
+	if(description.length > 50){
+		alert('The description is too long!');
 		return;
 	}
 	// get file name

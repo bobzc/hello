@@ -20,7 +20,6 @@
 ?>
 	</article>
 	<div id="dropbox"></div>
-	<div id="feedback"></div>
 	<progress id="progressbar" min=0 max=100 value=0></progress>
 </div>
 

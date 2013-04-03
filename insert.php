@@ -6,11 +6,21 @@
 	// save uploaded image
 	move_uploaded_file($_FILES['file']['tmp_name'],'upload/'.$filename);
 
+	$ret = shell_exec("cd upload; identify $filename");
+	$is_image = preg_match("/ PNG/", "$ret");
+	$is_image = preg_match("/ JPEG/", "$ret") || $is_image;
+	$is_image = preg_match("/ GIF/", "$ret") || $is_image;
+	if(!$is_image){
+		echo "error";
+		return;
+	}
+	
 	// generate thumbnail
 	shell_exec("cd upload;
 				convert -size 100x100 $filename -resize 100x100 +profile '*' $thumbnail_name;
 				mv $thumbnail_name ../thumbnail/$thumbnail_name");
-
+	shell_exec("cd upload; chmod 644 *");
+	shell_exec("cd thumbnail; chmod 644 *");
 
 	// check duplicated file name
 	$dbh = new PDO('mysql:host=pc89074.cse.cuhk.edu.hk;dbname=1155002007', 
