@@ -9,6 +9,21 @@ var __eventArray;
 var __diffX;
 var __diffY;
 
+var __leftTopX;
+var __leftTopY;
+var __rightTopX;
+var __rightTopY;
+var __leftButtomX;
+var __leftButtomY;
+var __rightButtomX;
+var __rightButtomY;
+
+var __gapX;
+var __gapY;
+
+var __height;
+var __width;
+
 var TD_CLASS = ['NW', "N", "NE", "W", "CENTER", "E", "SW", "S", "SE"];
 
 
@@ -46,6 +61,14 @@ function viewImageHandler(target){
 		setViewLayerStyle();	
 	};
 	__image.addEventListener('mousedown', imageDragHandler, false);
+	document.getElementsByClassName('NW')[0].addEventListener("mousedown", imageResizeHandler, false);
+	document.getElementsByClassName('N')[0].addEventListener("mousedown", imageResizeHandler, false);
+	document.getElementsByClassName('W')[0].addEventListener("mousedown", imageResizeHandler, false);
+	document.getElementsByClassName('E')[0].addEventListener("mousedown", imageResizeHandler, false);
+	document.getElementsByClassName('S')[0].addEventListener("mousedown", imageResizeHandler, false);
+	document.getElementsByClassName('SE')[0].addEventListener("mousedown", imageResizeHandler, false);
+	document.getElementsByClassName('SW')[0].addEventListener("mousedown", imageResizeHandler, false);
+	document.getElementsByClassName('NE')[0].addEventListener("mousedown", imageResizeHandler, false);
 }
 
 
@@ -56,6 +79,17 @@ function imageResizeHandler(e){
 
 	__diffX = e.clientX - __viewLayer.offsetLeft;
 	__diffY = e.clientY - __viewLayer.offsetTop;
+
+	__leftTopX = __viewLayer.offsetLeft;
+	__leftTopY = __viewLayer.offsetTop;
+	__rightButtomX = __leftTopX + parseInt(__viewLayer.style.width);
+	__rightButtomY = __leftTopY + parseInt(__viewLayer.style.height);
+
+	__gapX = parseInt(__viewLayer.style.width) - __image.width;
+	__gapY = parseInt(__viewLayer.style.height) - __image.height;
+
+	__width = __image.width;
+	__height = __image.height;
 
 	__eventArray = new Array();
 	__eventArray.length = 0;
@@ -70,13 +104,13 @@ function imageResizeHandler(e){
 		case 'E': func = resizeEhandler; break;
 		case 'SW': func = resizeSWhandler; break;
 		case 'S': func = resizeShandler; break;
-		case 'SE': func = resizeNEhandler; break;
+		case 'SE': func = resizeSEhandler; break;
 	}
 
 	__eventArray.push(new imageEvent(__viewLayer, "mousemove", func, false));
 	__eventArray.push(new imageEvent(__viewLayer, "mouseup", undragHandler, false));
 	__eventArray.push(new imageEvent(__body, "mousemove", func, false));
-	__eventArray.push(new imageEvent(window, "mousemove", outOfBound, false));
+	__eventArray.push(new imageEvent(window, "mousemove", func, false));
 	__eventArray.push(new imageEvent(window, "mouseup", undragHandler, false));
 
 	for(var i = 0; i < __eventArray.length; i++){
@@ -85,11 +119,166 @@ function imageResizeHandler(e){
 	}
 }
 
+function resizeNWhandler(e){
+	e.stopPropagation();
+	e.preventDefault();
+	resizeLeftBoundCheck(e);
+	resizeUpBoundCheck(e);
+}
+
+function resizeNhandler(e){
+	e.stopPropagation();
+	e.preventDefault();
+	resizeUpBoundCheck(e);
+	__image.style.width = __width + "px";
+}
+
+function resizeNEhandler(e){
+	e.stopPropagation();
+	e.preventDefault();
+	resizeUpBoundCheck(e);
+	resizeRightBoundCheck(e);
+}
+
+function resizeWhandler(e){
+	e.stopPropagation();
+	e.preventDefault();
+	resizeLeftBoundCheck(e);
+	__image.style.height = __height + "px";
+}
+
+function resizeEhandler(e){
+	e.stopPropagation();
+	e.preventDefault();
+	resizeRightBoundCheck(e);
+	__image.style.height = __height + "px";
+}
+function resizeSWhandler(e){
+	e.stopPropagation();
+	e.preventDefault();
+	resizeLeftBoundCheck(e);
+	resizeDownBoundCheck(e);
+}
+function resizeShandler(e){
+	e.stopPropagation();
+	e.preventDefault();
+	resizeDownBoundCheck(e);
+	__image.style.width = __width + "px";
+}
+
+function resizeSEhandler(e){
+	e.stopPropagation();
+	e.preventDefault();
+	resizeRightBoundCheck(e);
+	resizeDownBoundCheck(e);
+}
+
+function resizeLeftBoundCheck(e){
+
+	var padding = 10;
+	var trueX = e.clientX - __diffX;
+	
+	var left_bound = 0;
+	var right_bound = __rightButtomX - __gapX;
+
+	if(trueX < left_bound + padding){
+		__viewLayer.style.left = padding + "px";
+		__viewLayer.style.width = __rightButtomX -  padding + "px";
+		__image.style.width = parseInt(__viewLayer.style.width) - __gapX + "px";
+		__centerDiv.style.width = __image.style.width;
+	}else if(trueX > right_bound){
+		__viewLayer.style.left = right_bound + "px";
+		__viewLayer.style.width = __gapX + "px";
+		__image.style.width = "0px";
+		__centerDiv.style.width = __image.style.width;
+	}else{
+		__viewLayer.style.left = trueX + "px";
+		__viewLayer.style.width =  __rightButtomX - trueX+ "px";
+		__image.style.width = parseInt(__viewLayer.style.width) - __gapX + "px";
+		__centerDiv.style.width = __image.style.width;
+	}
+}
+
+function resizeRightBoundCheck(e){
+
+	var padding = 10;
+	var trueX = e.clientX + - __diffX - __leftTopX + __rightButtomX;
+	
+	var left_bound = __leftTopX + __gapX;
+	var right_bound = window.innerWidth - padding;
+
+	if(trueX < left_bound){
+		__viewLayer.style.left = __leftTopX + "px";
+		__viewLayer.style.width = __gapX + "px";
+		__image.style.width = "0px";
+		__centerDiv.style.width = __image.style.width;
+	}else if(trueX + padding > right_bound){
+		__viewLayer.style.left = __leftTopX + "px";
+		__viewLayer.style.width = right_bound - __leftTopX + "px";
+		__image.style.width = parseInt(__viewLayer.style.width) - __gapX + "px";
+		__centerDiv.style.width = __image.style.width;
+	}else{
+		console.log(trueX);
+		__viewLayer.style.left = __leftTopX + "px";
+		__viewLayer.style.width = trueX - __leftTopX + "px";
+		__image.style.width = parseInt(__viewLayer.style.width) - __gapX + "px";
+		__centerDiv.style.width = __image.style.width;
+	}
+}
 
 
+function resizeUpBoundCheck(e){
 
+	var padding = 10;
+	var trueY = e.clientY - __diffY;
 
+	var top_bound = 0;
+	var buttom_bound = __rightButtomY - __gapY;
 
+	if(trueY < top_bound + padding){
+		__viewLayer.style.top = padding + "px";
+		__viewLayer.style.height = __rightButtomY - padding + "px";
+		__image.style.height = parseInt(__viewLayer.style.height) - __gapY + "px";
+		__centerDiv.style.height = __image.style.height;
+	}else if(trueY > buttom_bound){
+		__viewLayer.style.top = buttom_bound + "px";
+		__viewLayer.style.height = __gapY + "px" ;
+		__image.style.height = "0px";
+		__centerDiv.style.height = __image.style.height;
+	}else{
+		__viewLayer.style.top = trueY + "px";
+		__viewLayer.style.height = __rightButtomY - trueY + "px";
+		__image.style.height = parseInt(__viewLayer.style.height) - __gapY + "px";
+		__centerDiv.style.height = __image.style.height;
+	}
+}
+
+function resizeDownBoundCheck(e){
+
+	var padding = 10;
+	var trueY = e.clientY + - __diffY - __leftTopY + __rightButtomY;
+	
+	var top_bound = __leftTopY + __gapY;
+	var down_bound = window.innerHeight - padding;
+
+	if(trueY < top_bound){
+		__viewLayer.style.top = __leftTopY + "px";
+		__viewLayer.style.height = __gapY + "px";
+		__image.style.height = "0px";
+		__centerDiv.style.height = __image.style.height;
+	}else if(trueY + padding > down_bound){
+		__viewLayer.style.top = __leftTopY + "px";
+		__viewLayer.style.height = down_bound - __leftTopY + "px";
+		__image.style.height = parseInt(__viewLayer.style.height) - __gapY + "px";
+		__centerDiv.style.height = __image.style.height;
+	}else{
+		console.log(trueY);
+		__viewLayer.style.top = __leftTopY + "px";
+		__viewLayer.style.height = trueY - __leftTopY + "px";
+		__image.style.height = parseInt(__viewLayer.style.height) - __gapY + "px";
+		__centerDiv.style.height = __image.style.height;
+	}
+}
 
 /*************************/
 /*  drag event handler   */
@@ -212,6 +401,7 @@ function setImageStyle(obj){
 		obj.style.width = window.innerWidth * 0.7 + "px";
 		obj.style.height = obj.width * ratio + "px";
 	}
+	obj.style.float = "left";
 }
 
 function setViewLayerStyle(){
