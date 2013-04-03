@@ -6,6 +6,9 @@ var __image;
 var __table;
 var __eventArray;
 
+var __diffX;
+var __diffY;
+
 var TD_CLASS = ['NW', "N", "NE", "W", "CENTER", "E", "SW", "S", "SE"];
 
 
@@ -46,17 +49,63 @@ function viewImageHandler(target){
 }
 
 
-/********************/
-/*  event handler   */
-/********************/
+
+function imageResizeHandler(e){
+	e.stopPropagation();
+	e.preventDefault();
+
+	__diffX = e.clientX - __viewLayer.offsetLeft;
+	__diffY = e.clientY - __viewLayer.offsetTop;
+
+	__eventArray = new Array();
+	__eventArray.length = 0;
+
+	var func;
+	var targetClass = e.target.className.toUpperCase();
+	switch(targetClass){
+		case 'NW': func = resizeNWhandler; break;
+		case 'N': func = resizeNhandler; break;
+		case 'NE': func = resizeNEhandler; break;
+		case 'W': func = resizeWhandler; break;
+		case 'E': func = resizeEhandler; break;
+		case 'SW': func = resizeSWhandler; break;
+		case 'S': func = resizeShandler; break;
+		case 'SE': func = resizeNEhandler; break;
+	}
+
+	__eventArray.push(new imageEvent(__viewLayer, "mousemove", func, false));
+	__eventArray.push(new imageEvent(__viewLayer, "mouseup", undragHandler, false));
+	__eventArray.push(new imageEvent(__body, "mousemove", func, false));
+	__eventArray.push(new imageEvent(window, "mousemove", outOfBound, false));
+	__eventArray.push(new imageEvent(window, "mouseup", undragHandler, false));
+
+	for(var i = 0; i < __eventArray.length; i++){
+			var tmp = __eventArray[i];
+			tmp.eTarget.addEventListener(tmp.eType, tmp.eListener, tmp.eProp);
+	}
+}
 
 
+
+
+
+
+
+/*************************/
+/*  drag event handler   */
+/*************************/
 
 function imageDragHandler(e){
 	console.log("down");
 	e.stopPropagation();
 	e.preventDefault();
 
+	__diffX = e.clientX - __viewLayer.offsetLeft;
+	__diffY = e.clientY - __viewLayer.offsetTop;
+
+	__image.style.cursor = "move";
+
+	/* register event handlers */
 	__eventArray = new Array();
 	__eventArray.length = 0;
 
@@ -83,20 +132,57 @@ function movingDragHandler(e){
 
 function undragHandler(e){
 	console.log("up");
+	e.stopPropagation();
+	e.preventDefault();
+
+	__image.style.cursor = "";
+
+	var tmp;
+	while((tmp = __eventArray.pop()) != null){
+		tmp.eTarget.removeEventListener(tmp.eType, tmp.eListener, tmp.eProp);
+	}
 
 }
 
 function outOfBound(e){
 	console.log("out");
-
+	e.stopPropagation();
+	e.preventDefault();
+	moveBoundCheck(e);
 }
 
 function moveBoundCheck(e){
 	
+	var padding = 10;
+	var trueX = e.clientX - __diffX;
+	var trueY = e.clientY - __diffY;
+	var left_bound = 0;
+	var top_bound = 0;
+	var right_bound = window.innerWidth;
+	var buttom_bound = window.innerHeight;
+	var divWidth = parseInt(__viewLayer.style.width);
+	var divHeight = parseInt(__viewLayer.style.height);
 
+
+	/* check left and right bound */
+	if(trueX < padding){
+		__viewLayer.style.left = new String(left_bound + padding) + "px";
+	}else if(trueX + divWidth + padding > right_bound){
+		__viewLayer.style.left = new String(right_bound - divWidth - padding) + "px";
+	}else{
+		__viewLayer.style.left = trueX + "px";
+	}
+
+	/* check top and buttom bound */
+
+	if(trueY < padding){
+		__viewLayer.style.top = new String(top_bound + padding) + "px";
+	}else if(trueY + divHeight + padding > buttom_bound){
+		__viewLayer.style.top = new String(buttom_bound - divHeight - padding) + "px";
+	}else{
+		__viewLayer.style.top = trueY + "px";
+	}
 }
-
-
 
 
 /***********************/
