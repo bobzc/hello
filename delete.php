@@ -7,4 +7,8 @@
 	$query->execute(array($filename));
 	shell_exec("cd upload; rm $filename");
 	shell_exec("cd thumbnail; rm thumb-$filename");
+
+	$time = time();
+	$query = $dbh->prepare("UPDATE LAST SET time=? WHERE id=1");
+	$query->execute(array($time));
 ?>

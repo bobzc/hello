@@ -41,4 +41,8 @@
 	}
 
 	echo "<img src=./thumbnail/$thumbnail_name></img>";
+
+	$time = time();
+	$query = $dbh->prepare("UPDATE LAST SET time=? WHERE id=1");
+	$query->execute(array($time));
 ?>

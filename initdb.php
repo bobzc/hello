@@ -9,7 +9,8 @@
 										   description CHAR(100), 
 										   width INT,
 									   	   height INT)');
-	$sth = $dbh->exec('CREATE TABLE LAST(time BIGINT)');
+	$sth = $dbh->exec('DROP TABLE LAST');
+	$sth = $dbh->exec('CREATE TABLE LAST(id INT, time BIGINT)');
 	$time = time();
-	$sth = $dbh->exec("INSERT INTO LAST VALUES ($time)");
+	$sth = $dbh->exec("INSERT INTO LAST VALUES (1, $time)");
 ?>	
